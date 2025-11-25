@@ -10,6 +10,16 @@
   <name>flipkart Maven Webapp</name>
   <url>http://maven.apache.org</url>
 
+  <!-- Set Java compilation target to 17 -->
+  <properties>
+    <!-- Use the release flag when available to ensure proper cross-compilation -->
+    <maven.compiler.release>17</maven.compiler.release>
+    <!-- Fallback/source/target for older plugins or tooling that don't honor release -->
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -21,6 +31,26 @@
 
   <build>
     <finalName>flipkart</finalName>
+    <plugins>
+      <!-- Configure maven-compiler-plugin to use Java 17 -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.11.0</version>
+        <configuration>
+          <!-- Prefer release for consistent targetting; fallback to source/target if needed -->
+          <release>${maven.compiler.release}</release>
+          <source>${maven.compiler.source}</source>
+          <target>${maven.compiler.target}</target>
+        </configuration>
+      </plugin>
+      <!-- Ensure WAR plugin uses the proper layout (default) - explicit only for clarity -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>3.3.2</version>
+      </plugin>
+    </plugins>
   </build>
 
 </project>
